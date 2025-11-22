@@ -2,6 +2,7 @@ export const SITE = {
   storeName: '三隻羊商行 | 95212291',
   address: '970 花蓮縣花蓮市府前路396號',
   phone: '0982-724358',
+  businessHours: '11:00-14:00 | 16:30-20:00(週日公休)',
   lineIcon: '/icon/line.png',
   lineQrCode: '/qrcode/line.png',
   lineHref: 'https://lin.ee/ZfVn3c0',
