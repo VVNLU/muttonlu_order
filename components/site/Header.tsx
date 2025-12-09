@@ -15,7 +15,7 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="w-full flex items-center justify-between">
+    <header className="w-full flex items-center justify-between bg-white p-3 max-w-screen-md sm:mx-auto">
       <Link
         href="/"
         className="inline-block"
@@ -29,7 +29,7 @@ export default function Header() {
       </Link>
 
       <LayoutGroup id="main-nav">
-        <nav className="flex space-x-2 mt-8 sm:space-x-4">
+        <nav className="flex space-x-2 mt-12 sm:space-x-4">
           {links.map((link) => {
             const isActive = pathname === link.href || pathname.startsWith(link.href + "/");
             return (

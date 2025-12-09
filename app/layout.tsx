@@ -29,12 +29,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-          <main className="flex min-h-screen w-full max-w-3xl flex-col items-start justify-between p-4 bg-white dark:bg-black sm:p-8">
+        <div className="flex h-screen flex-col font-sans dark:bg-black bg-zinc-300">
           <Header />
-          {children}
+
+          <div className="flex-1 overflow-y-auto">
+            <main className="w-full mx-auto max-w-screen-md p-3 dark:bg-black bg-white sm:p-8 sm:h-full">
+              {children}
+            </main>
+          </div>
+
           <Footer />
-          </main>
         </div>
       </body>
     </html>
