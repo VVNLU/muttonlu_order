@@ -64,7 +64,7 @@ export const Field: React.FC<FieldProps> = ({
         {children}
 
         {description && !hasError && (
-          <FieldDescription className={cn(descriptionClassName)}>
+          <FieldDescription className={cn("whitespace-pre-line", descriptionClassName)}>
             {description}
           </FieldDescription>
         )}
