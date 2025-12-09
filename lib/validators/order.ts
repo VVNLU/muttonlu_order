@@ -1,3 +1,4 @@
+import { Phone } from 'lucide-react'
 import { z } from 'zod'
 
 // 商品資訊
@@ -9,27 +10,68 @@ export const OrderItemSchema = z.object({
 })
 export type OrderItem = z.infer<typeof OrderItemSchema>
 
-// 顧客資訊
-export const CustomerInfoSchema = z.object({
-  name: z.string().min(1, '請填寫姓名'),
-  phone: z.string().regex(/^\d+$/, '僅限填寫數字').min(10, '手機格式不正確'),
-  city: z.string().min(1, '請選擇縣市'),
-  district: z.string().min(1, '請選擇市區鄉鎮'),
-  address: z.string().min(1, '請填寫完整地址'),
-})
-export type CustomerInfo = z.infer<typeof CustomerInfoSchema>
-
 // 取貨方式
 export const MethodEnum = z.enum(['inStore', 'ship', 'delivery'])
 export type Method = z.infer<typeof MethodEnum>
 
 // 訂單資訊
 export const OrderFormSchema = z.object({
-  items: z.array(OrderItemSchema).min(1, '至少選購一包'),
-  customer: CustomerInfoSchema,
-  method: MethodEnum,
+  name: z
+    .string()
+    .min(1, '請填寫姓名')
+    .regex(/^[A-Za-z\u4e00-\u9fa5\s]+$/, '不可包含數字或符號'),
+  phone: z
+    .string()
+    .min(1, '請填寫手機') 
+    .regex(/^\d+$/, '僅限填寫數字')
+    .min(10, '手機格式不正確'),
+  quantity: z
+    .number()
+    .int()
+    .min(1, '至少選購一包 1'),
+  pickupMethod: z
+    .string()
+    .min(1, '請選擇取貨方式')
+    .refine((val): val is Method => MethodEnum.options.includes(val as Method), {message: '請選擇取貨方式',}),
+  pickupDate: z
+    .string()
+    .min(1, '請選擇取貨日期')
+    .refine((value) => !Number.isNaN(Date.parse(value)), {
+      message: '日期格式不正確',
+    }),
+  payment: z
+    .string()
+    .min(1, '請選擇付款方式'),
   city: z.string().optional().default(''),
   district: z.string().optional().default(''),
-  addrRest: z.string().optional().default(''),
+  address: z.string().optional().default(''),
+  remark: z.string().optional().default(''),
 })
+.superRefine((data, ctx) => {
+  // 宅配
+  if (data.pickupMethod === 'ship') {
+    if (!data.city) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['city'],
+        message: '請選擇縣市',
+      })
+    }
+    if (!data.district) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['district'],
+        message: '請選擇市區鄉鎮',
+      })
+    }
+    if (!data.address) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['address'],
+        message: '請填寫完整地址',
+      })
+    }
+  }
+})
+
 export type OrderFormInput = z.infer<typeof OrderFormSchema>
