@@ -9,3 +9,6 @@ export type { SelectProps } from './select'
 
 export { Field } from './field'
 export type { FieldProps } from './field'
+
+export { DatePicker } from './date-picker'
+export type { DatePickerProps } from './date-picker'
