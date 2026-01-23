@@ -32,8 +32,8 @@ export default function RootLayout({
         <div className="flex h-screen flex-col font-sans dark:bg-black bg-zinc-300">
           <Header />
 
-          <div className="flex-1 overflow-y-auto">
-            <main className="w-full mx-auto max-w-screen-md p-3 dark:bg-black bg-white sm:p-8 sm:h-full">
+          <div className="flex-1 flex">
+            <main className="flex-1 min-h-0 overflow-y-auto w-full mx-auto max-w-screen-md p-3 sm:p-8 bg-white dark:bg-black">
               {children}
             </main>
           </div>
