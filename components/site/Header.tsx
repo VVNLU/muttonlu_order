@@ -21,7 +21,7 @@ export default function Header() {
         className="inline-block"
       >
         <Image
-          src="/logo-10*6.png"
+          src="/newLogo.png"
           alt="logo"
           width={150}
           height={150}

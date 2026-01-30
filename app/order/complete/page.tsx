@@ -124,7 +124,7 @@ const OrderCompletePage = () => {
               {(order.pickupMethod === 'ship' || order.pickupMethod === 'delivery') && (
                 <>
                   <p>收件資訊</p>
-                  <div className="flex space-x-2">
+                  <div className="flex items-center space-x-2">
                     <Image
                       src="/icon/map.svg"
                       alt="smile icon"
@@ -142,10 +142,10 @@ const OrderCompletePage = () => {
               {order.pickupMethod === 'inStore' && (
                 <>
                   <div className="space-y-3 text-sm">
-                    <p className="flex justify-center text-amber-700 font-medium text-xl">
+                    <p className="flex justify-center text-amber-700 font-medium text-xl sm:text-2xl">
                       請於營業時間內取貨，謝謝。
                     </p>
-                    <div className="space-y-1">
+                    <div className="space-y-1 sm:text-lg">
                       <div className="flex justify-between gap-4">
                         <span className="text-muted-foreground">地址</span>
                         <span className="text-right">{SITE.address}</span>
@@ -171,7 +171,7 @@ const OrderCompletePage = () => {
             {paymentByTransfer()}
           </div>
         )}
-      <div className="w-full rounded-lg border bg-card p-3 shadow-sm space-y-1">
+      <div className="w-full rounded-lg border bg-card p-3 shadow-sm space-y-1 sm:text-lg">
         <div className="flex justify-between">
           <span className="text-muted-foreground">數量</span>
           <span className="text-right">{order?.quantity}</span>
@@ -183,12 +183,16 @@ const OrderCompletePage = () => {
       </div>
       <div className="pt-2 flex flex-col gap-2">
         <Link href="/order" className="w-full">
-          <Button className="w-full" type="button">
+          <Button 
+            type="button"
+            size="md"
+            className="w-full sm:h-12 sm:px-8 sm:text-lg"
+          >
             回訂購表單
           </Button>
         </Link>
 
-        <Link href="/" className="w-full text-center text-muted-foreground hover:underline">
+        <Link href="/" className="w-full text-center text-muted-foreground hover:underline sm:text-lg">
           回首頁
         </Link>
       </div>
