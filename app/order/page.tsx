@@ -83,7 +83,7 @@ const page = () => {
       value: d,
     })) : []
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const formData: OrderFormInput = {
       name,
       phone,
@@ -112,15 +112,35 @@ const page = () => {
       setPickupDateError(fieldErrors.pickupDate?.[0])
       return
     }
-    const data = {
-      ...result.data,
-      totalAmount,
-    }
-    if (typeof window !== 'undefined') {
-    sessionStorage.setItem('order-form', JSON.stringify(data))
+
+    // 寫進 Firestore
+    const res = await fetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(result.data),
+    });
+
+    const payload = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      throw new Error(payload.error || "建立訂單失敗");
     }
 
-    router.push('/order/complete')
+    const { orderId, orderNo, totalAmount } = payload;
+
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(
+        "order-form",
+        JSON.stringify({
+          ...result.data,
+          orderId,
+          orderNo,
+          totalAmount,
+        })
+      );
+    }
+
+    router.push(`/order/complete?orderId=${orderId}`)
   }
 
   return (
@@ -519,10 +539,11 @@ const page = () => {
         </div>
       </div>
 
-      <div className="col-span-2 flex justify-end">
+      <div className="col-span-2 flex flex-col">
         <Button
           type="button"
           size="md"
+          className="sm:h-12 sm:px-8 sm:text-lg"
           onClick={handleSubmit}
         >
           送出訂單
